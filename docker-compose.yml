@@ -37,17 +37,17 @@ services:
   vite:
     build:
       context: .
-      dockerfile: Dockerfile.vite # Dockerfile for Vite
+      dockerfile: Dockerfile.vite
     volumes:
       - ./:/app
       - vite_node_modules:/app/node_modules
-    ports:
-      - "5173:5173" # Expose Vite’s port (optional for direct access)
-    command: npm run dev -- --host 0.0.0.0
-    depends_on:
-      - laravel
     environment:
-      - VITE_HOST=0.0.0.0
+      - CHOKIDAR_USEPOLLING=true
+      # Fixes HMR websocket connections
+      - VITE_HMR_HOST=localhost
+    ports:
+      - "5173:5173"
+    command: npm run dev -- --host
 
 volumes:
   mariadb_data:
